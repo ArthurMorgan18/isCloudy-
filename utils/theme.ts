@@ -1,9 +1,9 @@
 const theme = {
   primaryColor: '#31305d',
-  input:{
+  input: {
     placeholderColor: '#a8a8a8',
-    textColor:'#ededed',
-  }
+    textColor: '#ededed',
+  },
 };
 
 export default theme;
