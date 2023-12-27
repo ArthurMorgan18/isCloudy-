@@ -9,6 +9,8 @@ interface IContextValue {
   resetSearchingValue: () => void;
   searchValue: string | null;
   appLoading: boolean;
+  setAppLoading: (value: boolean) => void;
+  setSearchValue: (value: string | null) => void;
 }
 
 const WeatherContext = createContext<IContextValue | undefined>(undefined);
@@ -31,7 +33,6 @@ const WeatherProvider: React.FC<any> = ({ children }) => {
     }
   }, [searchValue]);
 
-  //Get default weather state on app load
   useEffect(() => {
     fetchWeatherFromSearch();
   }, []);
@@ -47,6 +48,8 @@ const WeatherProvider: React.FC<any> = ({ children }) => {
     resetSearchingValue,
     searchValue,
     appLoading,
+    setAppLoading,
+    setSearchValue,
   };
 
   return <WeatherContext.Provider value={contextValue}>{children}</WeatherContext.Provider>;

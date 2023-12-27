@@ -11,13 +11,15 @@ const PrimeDescription = () => {
         <ActivityIndicator size="large" color="#fff" />
       ) : (
         <>
-          <DescriptionText fontSize={20}>{currentWeatherState.name}</DescriptionText>
-          <DescriptionText fontSize={12}>{currentWeatherState.sys.country}</DescriptionText>
-          <DescriptionText fontSize={55}>
-            {Math.round(Number(currentWeatherState.main.temp))} C°
+          <DescriptionText fontSize={20}>{currentWeatherState?.name}</DescriptionText>
+          <DescriptionText fontSize={12}>{currentWeatherState?.sys.country}</DescriptionText>
+          <DescriptionText fontSize={currentWeatherState ? 55 : 20}>
+            {currentWeatherState
+              ? `${Math.round(Number(currentWeatherState?.main.temp))} C°`
+              : 'Location not found'}
           </DescriptionText>
           <DescriptionText fontSize={15}>
-            {currentWeatherState.weather[0].description}
+            {currentWeatherState?.weather[0].description}
           </DescriptionText>
         </>
       )}
@@ -29,7 +31,6 @@ const styles = StyleSheet.create({
   primeDescription: {
     width: 200,
     height: 200,
-    marginTop: 75,
     justifyContent: 'center',
     alignItems: 'center',
   },
