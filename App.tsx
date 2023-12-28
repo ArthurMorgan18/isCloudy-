@@ -1,24 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, SafeAreaView, View} from 'react-native';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { PrimeDescription } from './components/PrimeDescription';
 import { SearchBar } from './components/SearchBar';
+import WeatherIcon from './components/WeatherConditions/WeatherIcon';
 import { WeatherProvider } from './context/WeatherContext';
 import { theme } from './utils';
-import Cloudy from "./components/WeatherConditions/Cloudy";
 
 export default function App() {
   return (
-    <WeatherProvider>
-      <SafeAreaView style={styles.container}>
-        <StatusBar style="auto" />
-        <SearchBar />
-        <PrimeDescription />
-        <View style={styles.iconContainer}>
-          <Cloudy/>
-        </View>
-      </SafeAreaView>
-    </WeatherProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <WeatherProvider>
+        <SafeAreaView style={styles.container}>
+          <StatusBar style="auto" />
+          <SearchBar />
+          <PrimeDescription />
+          <View style={styles.iconContainer}>
+            <WeatherIcon />
+          </View>
+        </SafeAreaView>
+      </WeatherProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -29,13 +32,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
-  iconContainer:{
-    height:'50%',
-    width:'100%',
-    backgroundColor:'#fc3',
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    alignContent:'center'
-  }
+  iconContainer: {
+    height: '50%',
+    width: '100%',
+    alignItems: 'center',
+    alignContent: 'center',
+  },
 });
