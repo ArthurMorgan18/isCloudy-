@@ -1,10 +1,10 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react';
 
 import WeatherService from '../api/services/WeatherService';
-import { InputSearchEvent } from '../common/types';
+import { InputSearchEvent, IWeatherData } from '../common/types';
 
 interface IContextValue {
-  currentWeatherState: any;
+  currentWeatherState: IWeatherData;
   onSearchBlurEvent: (event: InputSearchEvent) => void;
   resetSearchingValue: () => void;
   searchValue: string | null;
@@ -17,7 +17,7 @@ const WeatherContext = createContext<IContextValue | undefined>(undefined);
 
 const WeatherProvider: React.FC<any> = ({ children }) => {
   const [searchValue, setSearchValue] = React.useState<string | null>(null);
-  const [currentWeatherState, setCurrentWeatherState] = React.useState<any>(null);
+  const [currentWeatherState, setCurrentWeatherState] = React.useState<IWeatherData | null>(null);
   const [appLoading, setAppLoading] = React.useState<boolean>(false);
 
   const fetchWeatherFromSearch = useCallback(async (searchValue?: string) => {
@@ -36,8 +36,6 @@ const WeatherProvider: React.FC<any> = ({ children }) => {
   useEffect(() => {
     fetchWeatherFromSearch();
   }, []);
-
-  console.log('currentWeatherState', currentWeatherState);
 
   const onSearchBlurEvent = (event: InputSearchEvent) => setSearchValue(event.nativeEvent.text);
   const resetSearchingValue = () => setSearchValue(null);

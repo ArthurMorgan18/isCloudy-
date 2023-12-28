@@ -51,6 +51,10 @@ const weatherIconsNight = [
     path: require('../../assets/images/night/03n.png'),
   },
   {
+    iconName: '04n',
+    path: require('../../assets/images/night/04n.png'),
+  },
+  {
     iconName: '10n',
     path: require('../../assets/images/night/10n.png'),
   },

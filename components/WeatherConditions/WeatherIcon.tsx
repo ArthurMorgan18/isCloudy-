@@ -1,4 +1,3 @@
-import { useCallback, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
@@ -9,23 +8,25 @@ import useWeatherCondition from '../../utils/hooks/useWeatherCondition';
 
 const WeatherIcon = () => {
   const { currentWeatherState } = useWeather();
-  const iconValue = currentWeatherState?.weather[0]?.icon || '01d';
+  const iconValue = currentWeatherState.weather[0].icon || '01d';
   const { tap, animatedStyle, iconState } = useWeatherCondition(iconValue);
-  console.log(iconState);
-  const src = useMemo(
-    () => DynamicWeatherImages.GetImage(iconState.icon, iconState.dayTime),
-    [iconState],
-  );
-
-  console.log(src);
+  const imageSrc = DynamicWeatherImages.GetImage(iconState.icon, iconState.dayTime);
 
   return (
     <GestureDetector gesture={tap}>
-      <Animated.Image
-        source={src}
-        resizeMode="center"
-        style={[styles.weatherImage, animatedStyle]}
-      />
+      {imageSrc ? (
+        <Animated.Image
+          source={imageSrc}
+          resizeMode="center"
+          style={[styles.weatherImage, animatedStyle]}
+        />
+      ) : (
+        <Animated.Image
+          source={require('../../assets/images/defaults/defaultWeatherCondition.png')}
+          resizeMode="center"
+          style={[styles.weatherImage, animatedStyle]}
+        />
+      )}
     </GestureDetector>
   );
 };
