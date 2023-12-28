@@ -1,7 +1,8 @@
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 
 import DescriptionText from './DescriptionText';
 import { useWeather } from '../../context/WeatherContext';
+import SubDescriptionSection from "./SubDescriptionSection";
 const PrimeDescription = () => {
   const { appLoading, currentWeatherState } = useWeather();
 
@@ -15,12 +16,13 @@ const PrimeDescription = () => {
           <DescriptionText fontSize={12}>{currentWeatherState?.sys.country}</DescriptionText>
           <DescriptionText fontSize={currentWeatherState ? 55 : 20}>
             {currentWeatherState
-              ? `${Math.round(Number(currentWeatherState?.main.temp))} C°`
+              ? `${Math.round(currentWeatherState?.main.temp)} C°`
               : 'Location not found'}
           </DescriptionText>
           <DescriptionText fontSize={15}>
             {currentWeatherState?.weather[0].description}
           </DescriptionText>
+          <SubDescriptionSection currentWeatherState={currentWeatherState} />
         </>
       )}
     </View>

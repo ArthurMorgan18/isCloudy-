@@ -8,7 +8,7 @@ import useWeatherCondition from '../../utils/hooks/useWeatherCondition';
 
 const WeatherIcon = () => {
   const { currentWeatherState } = useWeather();
-  const iconValue = currentWeatherState.weather[0].icon || '01d';
+  const iconValue = currentWeatherState?.weather[0]?.icon || '01d';
   const { tap, animatedStyle, iconState } = useWeatherCondition(iconValue);
   const imageSrc = DynamicWeatherImages.GetImage(iconState.icon, iconState.dayTime);
 
