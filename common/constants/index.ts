@@ -72,4 +72,11 @@ const weatherIconsNight = [
   },
 ];
 
-export { api_endpoints, weatherIconsDay, weatherIconsNight };
+const saveDesriptionObj = {
+  visibility: null,
+  sys: { sunrise: null, sunset: null },
+  wind: { speed: null, deg: null, gust: null },
+  main: { feels_like: null, humidity: null, pressure: null },
+};
+
+export { api_endpoints, weatherIconsDay, weatherIconsNight, saveDesriptionObj };

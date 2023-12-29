@@ -1,8 +1,8 @@
-import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
 import DescriptionText from './DescriptionText';
+import SubDescriptionSection from './SubDescriptionSection';
 import { useWeather } from '../../context/WeatherContext';
-import SubDescriptionSection from "./SubDescriptionSection";
 const PrimeDescription = () => {
   const { appLoading, currentWeatherState } = useWeather();
 

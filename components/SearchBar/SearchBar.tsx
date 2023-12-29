@@ -6,7 +6,7 @@ import { theme } from '../../utils';
 import useLocation from '../../utils/hooks/useLocation';
 
 const SearchBar = () => {
-  const { onSearchBlurEvent, searchValue } = useWeather();
+  const { onSearchBlurEvent } = useWeather();
   const { requestLocationHandler } = useLocation();
 
   return (
