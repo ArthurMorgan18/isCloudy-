@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, SafeAreaView, View } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import AddToFavorite from './components/AddToFavorite';
 import { PrimeDescription } from './components/PrimeDescription';
 import { SearchBar } from './components/SearchBar';
 import WeatherIcon from './components/WeatherConditions/WeatherIcon';
+import WeatherDetails from './components/WeatherDetails/WeatherDetails';
 import { WeatherProvider } from './context/WeatherContext';
 import { theme } from './utils';
 
@@ -15,10 +17,10 @@ export default function App() {
         <SafeAreaView style={styles.container}>
           <StatusBar style="auto" />
           <SearchBar />
+          <AddToFavorite />
           <PrimeDescription />
-          <View style={styles.iconContainer}>
-            <WeatherIcon />
-          </View>
+          <WeatherIcon />
+          <WeatherDetails />
         </SafeAreaView>
       </WeatherProvider>
     </GestureHandlerRootView>
@@ -31,11 +33,5 @@ const styles = StyleSheet.create({
     backgroundColor: theme.primaryColor,
     alignContent: 'center',
     alignItems: 'center',
-  },
-  iconContainer: {
-    height: '50%',
-    width: '100%',
-    alignItems: 'center',
-    alignContent: 'center',
   },
 });

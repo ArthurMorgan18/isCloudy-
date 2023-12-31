@@ -1,4 +1,4 @@
-import { useEffect, useRef, useReducer, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,

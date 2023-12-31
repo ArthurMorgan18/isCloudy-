@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -13,21 +13,23 @@ const WeatherIcon = () => {
   const imageSrc = DynamicWeatherImages.GetImage(iconState.icon, iconState.dayTime);
 
   return (
-    <GestureDetector gesture={tap}>
-      {imageSrc ? (
-        <Animated.Image
-          source={imageSrc}
-          resizeMode="center"
-          style={[styles.weatherImage, animatedStyle]}
-        />
-      ) : (
-        <Animated.Image
-          source={require('../../assets/images/defaults/defaultWeatherCondition.png')}
-          resizeMode="center"
-          style={[styles.weatherImage, animatedStyle]}
-        />
-      )}
-    </GestureDetector>
+    <View style={styles.iconContainer}>
+      <GestureDetector gesture={tap}>
+        {imageSrc ? (
+          <Animated.Image
+            source={imageSrc}
+            resizeMode="center"
+            style={[styles.weatherImage, animatedStyle]}
+          />
+        ) : (
+          <Animated.Image
+            source={require('../../assets/images/defaults/defaultWeatherCondition.png')}
+            resizeMode="center"
+            style={[styles.weatherImage, animatedStyle]}
+          />
+        )}
+      </GestureDetector>
+    </View>
   );
 };
 
@@ -35,6 +37,12 @@ const styles = StyleSheet.create({
   weatherImage: {
     width: 200,
     height: 200,
+  },
+  iconContainer: {
+    height: '50%',
+    width: '100%',
+    alignItems: 'center',
+    alignContent: 'center',
   },
 });
 
