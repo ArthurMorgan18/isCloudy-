@@ -6,9 +6,13 @@ import { useWeather } from '../../context/WeatherContext';
 import DynamicWeatherImages from '../../utils/DynamicWeatherImages';
 import useWeatherCondition from '../../utils/hooks/useWeatherCondition';
 
-const WeatherIcon = () => {
+interface IWeatherIconProps {
+  iconProp?: string;
+}
+
+const WeatherIcon = ({ iconProp }: IWeatherIconProps) => {
   const { currentWeatherState } = useWeather();
-  const iconValue = currentWeatherState?.weather[0]?.icon || '01d';
+  const iconValue = iconProp ? iconProp : currentWeatherState?.weather[0]?.icon || '01d';
   const { tap, animatedStyle, iconState } = useWeatherCondition(iconValue);
   const imageSrc = DynamicWeatherImages.GetImage(iconState.icon, iconState.dayTime);
 
@@ -17,6 +21,7 @@ const WeatherIcon = () => {
       <GestureDetector gesture={tap}>
         {imageSrc ? (
           <Animated.Image
+            //@ts-ignore
             source={imageSrc}
             resizeMode="center"
             style={[styles.weatherImage, animatedStyle]}

@@ -56,4 +56,11 @@ interface IWeatherData {
   cod: number;
 }
 
-export { InputSearchEvent, IWeatherData };
+interface IFavsWeatherSate {
+  name: string;
+  temp: number;
+  icon: string;
+  description: string;
+}
+
+export { InputSearchEvent, IWeatherData, IFavsWeatherSate };

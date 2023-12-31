@@ -1,15 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import WeatherService from '../../api/services/WeatherService';
+import { IFavsWeatherSate } from '../../common/types';
 
 interface IUseFavorites {
   name: string;
-}
-
-interface IFavsWeatherSate {
-  name: string;
-  temp: number;
 }
 
 const useFavorites = ({ name }: IUseFavorites) => {
@@ -24,20 +20,23 @@ const useFavorites = ({ name }: IUseFavorites) => {
 
       if (existingFavorites.includes(name)) {
         // If the name is already in favorites, remove it
-        const updatedFavorites = existingFavorites.filter((favorite: string) => favorite !== name);
-        await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites)).then(() =>
-          setIsFavorite(false),
+        const updatedFavorites = existingFavorites.filter(
+          (favorite: string) => favorite !== name && favorite !== null,
         );
+        await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites)).then(() => {
+          setIsFavorite(false);
+          setFavCities(updatedFavorites);
+        });
       } else {
         existingFavorites.push(name);
-        await AsyncStorage.setItem('favorites', JSON.stringify(existingFavorites)).then(() =>
-          setIsFavorite(true),
-        );
+        await AsyncStorage.setItem('favorites', JSON.stringify(existingFavorites)).then(() => {
+          setIsFavorite(true);
+          setFavCities(existingFavorites);
+        });
       }
     } catch (error) {
       console.error('Error saving to favorites:', error);
     }
-    setFavCities(res ? JSON.parse(res) : []);
   };
 
   useEffect(() => {
@@ -58,20 +57,35 @@ const useFavorites = ({ name }: IUseFavorites) => {
   useEffect(() => {
     const getFavs = async () => {
       const favoriteCitiesFromStorage = await AsyncStorage.getItem('favorites');
-      const favoriteCities = JSON.parse(favoriteCitiesFromStorage || '[]');
+      const favoriteCities = JSON.parse(favoriteCitiesFromStorage || '[]').filter(
+        (item) => item !== null,
+      );
       setFavCities(favoriteCities);
     };
     getFavs();
   }, [name]);
 
-  const fetchFavoritesWeather = useCallback(async () => {
-    favCities.forEach((city: string) => {
-      WeatherService.getWeatherByCity(city).then((res) => {
-        const newState = [...favsWeather, { name: city, temp: res?.main.temp }];
-        setFavsWeather((prevFavsWeather) => [...prevFavsWeather, ...newState]);
-      });
+  const fetchFavoritesWeather = async () => {
+    const weatherPromises = favCities.map(async (city) => {
+      const res = await WeatherService.getWeatherByCity(city);
+      return {
+        name: city,
+        temp: res?.main.temp,
+        icon: res?.weather[0].icon,
+        description: res?.weather[0].description,
+      };
     });
+
+    const favsWeatherState = await Promise.all(weatherPromises);
+    //@ts-ignore
+    setFavsWeather(favsWeatherState);
+  };
+
+  useEffect(() => {
+    fetchFavoritesWeather();
   }, [favCities]);
+
+  console.log(favCities);
 
   return { isFavorite, saveToFavorites, fetchFavoritesWeather, favsWeather };
 };
