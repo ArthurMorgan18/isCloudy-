@@ -1,7 +1,8 @@
 import { memo } from 'react';
-import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
 
 import { IFavsWeatherSate } from '../../common/types';
+import { useWeather } from '../../context/WeatherContext';
 import { theme } from '../../utils';
 import { WeatherIcon } from '../WeatherConditions';
 
@@ -9,17 +10,33 @@ const { width } = Dimensions.get('window');
 
 interface IFavoriteCityProps extends IFavsWeatherSate {
   icon: string;
+  setIsFavoritesModalOpen: (value: boolean) => void;
 }
-const FavoriteCity = ({ name, temp, icon, description }: IFavoriteCityProps) => {
+const FavoriteCity = ({
+  name,
+  temp,
+  icon,
+  description,
+  setIsFavoritesModalOpen,
+}: IFavoriteCityProps) => {
+  const { setAppLoading, setSearchValue } = useWeather();
+
+  const handleFavoritePress = () => {
+    setSearchValue(name);
+    setAppLoading(true);
+    setIsFavoritesModalOpen(false);
+  };
   return (
-    <View style={styles.favCityContainer}>
-      <Text style={styles.cityName}>{name}</Text>
-      <Text style={styles.cityTemp}>{Math.round(temp)} C°</Text>
-      <Text style={styles.description}>{description}</Text>
-      <View style={styles.weatherIcon}>
-        <WeatherIcon iconProp={icon} />
+    <TouchableOpacity onPress={handleFavoritePress}>
+      <View style={styles.favCityContainer}>
+        <Text style={styles.cityName}>{name}</Text>
+        <Text style={styles.cityTemp}>{Math.round(temp)} C°</Text>
+        <Text style={styles.description}>{description}</Text>
+        <View style={styles.weatherIcon}>
+          <WeatherIcon iconProp={icon} />
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
