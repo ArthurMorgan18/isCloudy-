@@ -33,7 +33,7 @@ const Favorites = ({
               <CloseModalIcon />
             </TouchableHighlight>
           </View>
-          <View style={styles.FavoritesContainer}>
+          <View>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={favsWeather}
@@ -43,6 +43,7 @@ const Favorites = ({
                   temp={item.temp}
                   icon={item.icon}
                   description={item.description}
+                  setIsFavoritesModalOpen={setIsFavoritesModalOpen}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
@@ -79,6 +80,5 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   closeModal: { width: 34, height: 34, marginTop: 5 },
-  FavoritesContainer: {},
 });
 export default Favorites;
